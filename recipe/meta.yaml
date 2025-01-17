@@ -6,23 +6,23 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/torch_nl-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/torch_nl-{{ version }}.tar.gz
   sha256: e89a836691e665a5841128fae439fab15ae60af73dd111740f3aaf74289898b5
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 1
+  number: 2
 
 requirements:
   host:
-    - python >=3.8
+    - python {{ python_min }}
     - setuptools
     - wheel
     - ninja
     - pip
   run:
-    - python >=3.8
+    - python >={{ python_min }}
     - ase
     - numpy
     - pytorch >=1.10
@@ -36,6 +36,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   summary: TorchScript-able neighbor lists implementations (linear and quadratic scaling) for molecular modeling
