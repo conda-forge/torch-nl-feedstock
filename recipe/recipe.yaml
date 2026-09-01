@@ -1,0 +1,52 @@
+schema_version: 1
+
+context:
+  name: torch-nl
+  version: "0.3"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/torch_nl-${{ version }}.tar.gz
+  sha256: e89a836691e665a5841128fae439fab15ae60af73dd111740f3aaf74289898b5
+
+build:
+  number: 3
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}
+    - setuptools
+    - wheel
+    - ninja
+    - pip
+  run:
+    - python >=${{ python_min }}
+    - ase
+    - numpy
+    - pytorch >=1.10
+    - pytest
+    - black
+
+tests:
+  - python:
+      imports:
+        - torch_nl
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: TorchScript-able neighbor lists implementations (linear and quadratic scaling) for molecular modeling
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/felixmusil/torch_nl
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
